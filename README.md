@@ -1,1 +1,3 @@
-# odin-todo-list
+# Odin Todo List
+## About
+## What I learned

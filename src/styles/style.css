@@ -1,0 +1,141 @@
+:root {
+  --neutral-10:  hsl(0deg 0% 10%);
+  --neutral-15:  hsl(0deg 0% 15%);
+  --neutral-20:  hsl(0deg 0% 20%);
+  --neutral-30:  hsl(0deg 0% 30%);
+  --neutral-50:  hsl(0deg 0% 50%);
+  --neutral-70:  hsl(0deg 0% 70%);
+  --neutral-90:  hsl(0deg 0% 90%);
+
+  --accent: hsl(166deg 90% 60%);
+  --accent-low: hsl(166deg 90% 60% / 25%);
+  --accent-very-low: hsl(166deg 90% 60% / 5%);
+
+  --red: hsl(0deg 90% 60%);
+  --red-lite: hsl(0deg 90% 70%);
+  --red-low: hsl(0deg 90% 60% / 25%);
+
+  --orange: hsl(20deg 90% 60%);
+  --orange-low: hsl(20deg 90% 60% / 25%);
+
+  --yellow: hsl(40deg 90% 60%);
+  --yellow-low: hsl(40deg 90% 60% / 25%);
+
+  --light-blue: hsl(200deg 90% 60%);
+  --light-blue-low: hsl(200deg 90% 60% / 25%);
+
+  --purple: hsl(260deg 100% 70%);
+  --purple-low: hsl(260deg 100% 70% / 25%);
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr min-content;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--neutral-90);
+  background: var(--neutral-10);
+}
+
+h1, h2, h3, h4, h5, h6, button {
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+hr {
+  height: 1px;
+  border: none;
+  background-color: var(--neutral-50);
+}
+
+h1.special {
+  font-size: 3rem;
+  font-weight: 200;
+}
+
+small {
+  font-size: 14px;
+  color: var(--neutral-50);
+}
+
+button {
+  border: none;
+  border-radius: .5rem;
+  padding: 1rem 2rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: var(--neutral-10);
+  background: var(--neutral-90);
+
+  &:hover {
+    background: var(--neutral-70);
+  }
+
+  &.special-button {
+    background: none;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    &:hover {
+      background: var(--accent);
+      color: var(--neutral-10);
+    }
+  }
+
+  &.cancel-button {
+    background: none;
+    border: 1px solid var(--neutral-50);
+    color: var(--neutral-50);
+    &:hover {
+      border-color: var(--neutral-70);
+      color: var(--neutral-70);
+    }
+  }
+  
+  &.delete-button {
+    background: var(--red);
+    color: var(--neutral-90);
+    &:hover {
+      background: var(--red-lite);
+    }
+  }
+}
+
+.sidebar {
+  background: var(--neutral-15);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  grid-row: span 2;
+}
+
+.project-button {
+  background: none;
+  display: flex;
+  justify-content: space-between;
+  padding: .5rem 1rem;
+  width: 100%;
+  color: var(--neutral-90);
+  cursor: pointer;
+  &:hover {
+    background: var(--neutral-20);
+  }
+}
+
+.credits {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* UTILITY CLASSES */
+
+.text-accent {
+  color: var(--accent);
+}

@@ -1,0 +1,20 @@
+{
+  "home": {
+    "labels": [ "auto" ],
+    "hue": "72",
+    "tasks": [
+      {
+        "name": "Create you first task",
+        "description": "Click the ",
+        "priority": "high",
+        "due-date": ""
+      },
+      {
+        "name": "Star this project on Github!",
+        "description": "",
+        "priority": "high",
+        "due-date": ""
+      }
+    ]
+  }
+}

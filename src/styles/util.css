@@ -1,0 +1,7 @@
+.text-accent {
+  color: var(--accent);
+}
+
+.text-50 {
+  color: var(--neutral-50);
+}

@@ -33,7 +33,7 @@ body {
   height: 100vh;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 400px 3fr;
   grid-template-rows: 1fr min-content;
   font-family: "Inter", sans-serif;
   font-size: 16px;
@@ -54,13 +54,13 @@ hr {
   background-color: var(--neutral-50);
 }
 
-h1.special {
+h1.special { /* ! Fix positioning for numbers and capital letters */
   font-size: 3rem;
   font-weight: 200;
 }
 
 small {
-  font-size: 14px;
+  font-size: 0.85rem;
   color: var(--neutral-50);
 }
 
@@ -106,36 +106,87 @@ button {
   }
 }
 
-.sidebar {
+dialog {
+  width: 600px;
+  padding: 3rem;
   background: var(--neutral-15);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 2rem;
-  grid-row: span 2;
+  border: none;
+  outline: none;
+  border-radius: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: inherit;
+
+  &::backdrop {
+    background: #00000080;
+  }
 }
 
-.project-button {
-  background: none;
+dialog > form {
   display: flex;
-  justify-content: space-between;
-  padding: .5rem 1rem;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+input {
+  display: block;
   width: 100%;
-  color: var(--neutral-90);
-  cursor: pointer;
-  &:hover {
-    background: var(--neutral-20);
+  color: inherit;
+
+  &:autofill { /* ! Not working */
+    border-color: var(--light-blue);
+    background: none;
   }
+
+  &[type="text"] {
+    background: none;
+    border-radius: .5rem;
+    padding: .25rem .5rem;
+    border: 1px solid var(--neutral-50);
+
+    &:focus {
+      border-color: var(--neutral-90);
+      outline: none;
+    }
+  }
+}
+
+form > section {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+form .buttons {
+  display: flex;
+  justify-content: right;
+  gap: 1rem;
+}
+
+label {
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+
+label .additional {
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--neutral-50);
+}
+
+.tag {
+  padding: 0 1rem;
+  border-radius: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .credits {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* UTILITY CLASSES */
-
-.text-accent {
-  color: var(--accent);
 }

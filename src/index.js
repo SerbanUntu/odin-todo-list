@@ -1,28 +1,25 @@
 import './styles/reset.css';
-import './styles/style.css';
-import defaultProjects from './components/init.json';
+import './styles/main.css';
+import './styles/util.css';
+import defaultSpaces from './data/init.json';
+import { addSpaceButton } from './components/sidebar';
+import './components/new-space-dialog';
+import { loadSpace } from './components/space';
 
-const domNav = document.querySelector('nav.project-navigation');
+let spaces = JSON.parse(localStorage.getItem('@spaces'));
 
-let projects = JSON.parse(localStorage.getItem('@spaces-projects'));
-
-if(projects === null) {
-  projects = defaultProjects;
+if(spaces === null) {
+  spaces = defaultSpaces;
 }
 
-for(let [name, project] of Object.entries(projects)) {
-  const currentButton = document.createElement('div');
-  currentButton.classList.add('project-button');
-  currentButton.innerHTML = `
-    <div class="name-and-labels">
-      <p>@${name}</p>
-    </div>
-    <p>${project.tasks.length}</p>
-  `;
-  domNav.appendChild(currentButton);
-  currentButton.addEventListener('click', e => {
-    e.preventDefault();
-    currentButton.style.borderLeft = `4px solid hsl(${project.hue}deg 90% 60% / 100%)`;
-    currentButton.style.background = `hsl(${project.hue}deg 90% 60% / 5%)`;
-  });
+for(let [name, space] of Object.entries(spaces)) {
+  addSpaceButton(name, space);
+}
+
+loadSpace(...Object.entries(spaces)[0]);
+
+export function addSpace(name, space) {
+  spaces[name] = space;
+  addSpaceButton(name, space);
+  loadSpace(name, space);
 }

@@ -1,11 +1,12 @@
 {
   "home": {
-    "labels": [ "auto" ],
     "hue": "72",
+    "auto": "true",
+    "list": "false",
     "tasks": [
       {
         "name": "Create you first task",
-        "description": "Click the ",
+        "description": "Click the `Add task` button in the sidebar.",
         "priority": "high",
         "due-date": ""
       },

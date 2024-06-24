@@ -15,8 +15,21 @@
   width: 100%;
   color: var(--neutral-90);
   cursor: pointer;
+
   &:hover {
+    .tasks-count {
+      display: none;
+    }
+
+    img {
+      display: block;
+    }
+
     background: var(--neutral-20);
+  }
+
+  &[data-tasks="0"] {
+    color: var(--neutral-50);
   }
 }
 
@@ -34,4 +47,10 @@
 .list-tag {
   color: var(--purple);
   background: var(--purple-low);
+}
+
+img {
+  display: none;
+  position: relative;
+  left: .25rem;
 }

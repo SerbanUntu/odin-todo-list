@@ -1,21 +1,26 @@
 {
-  "home": {
-    "hue": "72",
-    "auto": "true",
-    "list": "false",
-    "tasks": [
-      {
-        "name": "Create you first task",
-        "description": "Click the `Add task` button in the sidebar.",
-        "priority": "high",
-        "due-date": ""
-      },
-      {
-        "name": "Star this project on Github!",
-        "description": "",
-        "priority": "high",
-        "due-date": ""
-      }
-    ]
-  }
+  "spaces": {
+    "home": {
+      "hue": "72",
+      "auto": "true",
+      "list": "false",
+      "tasks": [
+        {
+          "name": "Create you first task",
+          "description": "Click the `Add task` button in the sidebar.",
+          "priority": "high",
+          "due-date": ""
+        },
+        {
+          "name": "Star this project on Github!",
+          "description": "",
+          "priority": "high",
+          "due-date": ""
+        }
+      ]
+    }
+  },
+  "order": [
+    "home"
+  ]
 }

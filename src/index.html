@@ -40,5 +40,25 @@
       </div>
     </form>
   </dialog>
+  <dialog id="edit-space-dialog">
+    <form>
+      <h1></h1>
+      <hr>
+      <section class="section">
+        <label for="new-space-name">Name</label>
+        <input id="new-space-name" class="new-space-name" name="name" type="text" required maxlength="40">
+      </section>
+      <section class="section">
+        <label for="new-space-hue">Color <span class="additional">(use the slider)</span></label>
+        <div class="color-display"></div>
+        <input id="new-space-hue" class="new-space-hue" name="hue" type="range" min="0" max="360" value="0" required>
+      </section>
+      <div class="buttons">
+        <button type="button" class="cancel-button">Cancel</button>
+        <button type="button" class="delete-button">Delete</button>
+        <button type="submit" class="create-button">Save</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>

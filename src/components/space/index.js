@@ -9,12 +9,12 @@ export function loadSpace(name, space) {
   main.innerHTML = '';
   document.body.style.background = `hsl(${space.hue}deg 15% 10% / 100%)`;
   if(currentSpaceName) removeSelectedStyles(currentSpaceName);
-  addSelectedStyles(name, space);
+  addSelectedStyles(name);
   const domCurrentSpace = document.createElement('div');
   domCurrentSpace.classList.add('space-content');
   domCurrentSpace.innerHTML = `
     <h1 class="special"><span style="color: hsl(${space.hue}deg 90% 60% / 100%);">@</span>${name}</h1>
-    <p class="text-50">${space.tasks.length} task${space.tasks.length !== 1 ? 's' : ''}</p>
+    <p class="text-50">${space.tasks.length === 0 ? 'No' : space.tasks.length} task${space.tasks.length !== 1 ? 's' : ''}</p>
   `;
   currentSpaceName = name;
   main.appendChild(domCurrentSpace);

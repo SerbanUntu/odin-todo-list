@@ -1,21 +1,23 @@
 {
   "spaces": {
     "home": {
-      "hue": "72",
-      "auto": "true",
-      "list": "false",
+      "hue": 36,
+      "auto": true,
+      "list": false,
       "tasks": [
         {
-          "name": "Create you first task",
+          "name": "Create your first task",
           "description": "Click the `Add task` button in the sidebar.",
           "priority": "high",
-          "due-date": ""
+          "dueDate": "",
+          "completed": false
         },
         {
           "name": "Star this project on Github!",
-          "description": "",
+          "description": "https://github.com/SerbanUntu/odin-todo-list",
           "priority": "high",
-          "due-date": ""
+          "dueDate": "",
+          "completed": false
         }
       ]
     }

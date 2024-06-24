@@ -6,6 +6,8 @@ import { addSpaceButton, changeSpaceButton, removeSpaceButton } from './componen
 import './components/new-space-dialog';
 import { loadSpace } from './components/space';
 
+const IGNORE_SAVE_FLAG = true;
+
 let spaces = JSON.parse(localStorage.getItem('@spaces'));
 let spacesOrder = JSON.parse(localStorage.getItem('@spaces-order'));
 
@@ -23,16 +25,18 @@ for(let name of spacesOrder) {
 
 loadSpace(spacesOrder[0], spaces[spacesOrder[0]]);
 
-window.addEventListener("beforeunload", e => {
-  e.preventDefault();
-  localStorage.setItem('@spaces', JSON.stringify(spaces));
-  const spaceButtonNames = document.querySelectorAll('.sidebar nav.space-navigation .name-and-labels p');
-  let newOrder = [];
-  spaceButtonNames.forEach(name => {
-    newOrder.push(name.textContent.slice(1));
+if(!IGNORE_SAVE_FLAG) {
+  window.addEventListener("beforeunload", e => {
+    e.preventDefault();
+    localStorage.setItem('@spaces', JSON.stringify(spaces));
+    const spaceButtonNames = document.querySelectorAll('.sidebar nav.space-navigation .name-and-labels p');
+    let newOrder = [];
+    spaceButtonNames.forEach(name => {
+      newOrder.push(name.textContent.slice(1));
+    });
+    localStorage.setItem('@spaces-order', JSON.stringify(newOrder));
   });
-  localStorage.setItem('@spaces-order', JSON.stringify(newOrder));
-});
+}
 
 export function addSpace(name, space) {
   spaces[name] = space;

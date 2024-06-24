@@ -14,7 +14,7 @@ export function addSpaceButton(name, space) {
   currentButton.classList.add('space-button');
   currentButton.innerHTML = `
     <div class="name-and-labels">
-      <p>@${name}</p>
+      <p class="space-button-name">@${name}</p>
     </div>
     <p class="tasks-count">${space.tasks.length > 0 ? space.tasks.length : 'None'}</p>
   `; //! Prevent HTML injection
@@ -27,13 +27,13 @@ export function addSpaceButton(name, space) {
   if(space.auto === "true") {
     const autoTag = document.createElement('div');
     autoTag.classList.add('tag', 'auto-tag');
-    autoTag.innerText = 'auto';
+    autoTag.textContent = 'auto';
     domNameAndLabels.appendChild(autoTag);
   }
   if(space.list === "true") {
     const listTag = document.createElement('div');
     listTag.classList.add('tag', 'list-tag');
-    listTag.innerText = 'list';
+    listTag.textContent = 'list';
     domNameAndLabels.appendChild(listTag);
   }
   currentButton.addEventListener('click', e => {

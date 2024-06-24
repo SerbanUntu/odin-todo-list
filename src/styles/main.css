@@ -59,9 +59,18 @@ h1.special { /* ! Fix positioning for numbers and capital letters */
   font-weight: 200;
 }
 
+p.large {
+  font-size: 1.3rem;
+  font-weight: 300;
+}
+
 small {
   font-size: 0.85rem;
   color: var(--neutral-50);
+}
+
+small.desc {
+  font-weight: 400;
 }
 
 button {

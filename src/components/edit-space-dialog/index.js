@@ -6,8 +6,8 @@ const cancelButton = dialog.querySelector('.cancel-button');
 const deleteButton = dialog.querySelector('.delete-button');
 const form = dialog.querySelector('form');
 const formName = dialog.querySelector('h1');
-const nameInput = dialog.querySelector('.new-space-name');
-const hueInput = dialog.querySelector('.new-space-hue');
+const nameInput = dialog.querySelector('.edit-space-name');
+const hueInput = dialog.querySelector('.edit-space-hue');
 const colorDisplay = dialog.querySelector('.color-display');
 
 let oldName = '';

@@ -55,6 +55,66 @@ export class Task {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   }
 
+  getDaysUntilToday() {
+    return parseInt((new Date(Task.formatDate(new Date())) - new Date(this.dueDate)) / 86_400_000); // Reset hours and minutes
+  }
+ 
+  getDaysUntilEndOfWeek() {
+    let dayOfWeek = (new Date()).getDay();
+    if(dayOfWeek === 0) dayOfWeek = 7;
+    return 7 - dayOfWeek;
+  }
+
+  getSection() {
+    const daysUntilToday = this.getDaysUntilToday();
+    const daysUntilEndOfWeek = this.getDaysUntilEndOfWeek();
+    switch(daysUntilToday) {
+      case 1:
+        return 'Yesterday';
+      case 0:
+        return 'Today';
+      case -1:
+        return 'Tomorrow';
+    }
+    if(daysUntilToday > 1)
+      return 'Overdue';
+    if(daysUntilToday >= -daysUntilEndOfWeek)
+      return 'This Week';
+    if(daysUntilToday >= -daysUntilEndOfWeek - 7)
+      return 'Next Week';
+    return 'Upcoming';
+  }
+
+  getTagContent() {
+    switch(this.getDaysUntilToday()) {
+      case 1:
+        return 'yesterday';
+      case 0:
+        return 'today';
+      case -1:
+        return 'tomorrow';
+    }
+    return this.dueDate;
+  }
+
+  getTagStyle() {
+    const daysUntilToday = this.getDaysUntilToday();
+    const daysUntilEndOfWeek = this.getDaysUntilEndOfWeek();
+    switch(daysUntilToday) {
+      case 1:
+        return 'yesterday';
+      case 0:
+        return 'today';
+      case -1:
+        return 'tomorrow';
+    }
+    if(daysUntilToday > 1)
+      return 'overdue';
+    if(daysUntilToday >= -daysUntilEndOfWeek)
+        return 'this-week';
+    return 'after-this-week';
+  }
+
   getTaskComponent() {
     const taskComponent = document.createElement('div');
     taskComponent.classList.add('task');
@@ -77,8 +137,7 @@ export class Task {
       this.completed = !this.completed;
       taskComponent.dataset.completed = taskComponent.dataset.completed === 'true' ? 'false' : 'true';
     });
-    const dateTag = new DateTag(this.dueDate);
-    taskBody.appendChild(dateTag.getDateTagComponent());
+    taskBody.appendChild(this.getDateTagComponent());
     let editIcon = new Image();
     editIcon.src = editIconPath;
     editIcon.classList.add('edit-icon');
@@ -88,5 +147,12 @@ export class Task {
     taskBody.appendChild(editIcon);
     taskBody.appendChild(transferIcon);
     return taskComponent;
+  }
+
+  getDateTagComponent() {
+    const tagComponent = document.createElement('div');
+    tagComponent.textContent = this.getTagContent();
+    tagComponent.classList.add('tag', `${this.getTagStyle()}-tag`);
+    return tagComponent;
   }
 }

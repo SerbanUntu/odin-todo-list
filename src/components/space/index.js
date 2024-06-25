@@ -3,7 +3,7 @@ import { Task } from '../task';
 import './index.css';
 
 const main = document.querySelector('main');
-let currentSpaceName = '';
+export let currentSpaceName = '';
 
 export function loadSpace(name, space) {
   document.title = `${name} | @spaces`;
@@ -18,8 +18,19 @@ export function loadSpace(name, space) {
     <p class="text-50">${space.tasks.length === 0 ? 'No' : space.tasks.length} task${space.tasks.length !== 1 ? 's' : ''}</p>
   `;
   currentSpaceName = name;
-  domCurrentSpace.appendChild(getSectionComponent("Today", space.hue, space.tasks));
   main.appendChild(domCurrentSpace);
+  // Section logic
+  let currentSection = '';
+  let currentTasks = [];
+  for(let task of space.tasks) {
+    let currentTask = new Task(task.name, task.description, task.priority, task.dueDate, task.completed);
+    if(currentSection === '') currentSection = currentTask.getSection();
+    if(currentTask.getSection() === currentSection)
+      currentTasks.push(task);
+    else
+      domCurrentSpace.appendChild(getSectionComponent(currentSection, space.hue, currentTasks));
+  }
+  domCurrentSpace.appendChild(getSectionComponent(currentSection, space.hue, currentTasks));
 }
 
 function getSectionComponent(name, hue, tasks) {
@@ -29,6 +40,7 @@ function getSectionComponent(name, hue, tasks) {
     <h3>${name}</h3>
     <hr style="background: hsl(${hue}deg 90% 60% / 100%);">
   `;
+
   for(let task of tasks) {
     let currentTask = new Task(task.name, task.description, task.priority, task.dueDate, task.completed);
     currentSection.appendChild(currentTask.getTaskComponent());

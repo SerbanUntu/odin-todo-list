@@ -25,11 +25,11 @@
     <form>
       <h1>New space</h1>
       <hr>
-      <section class="section">
+      <section class="form-section">
         <label for="new-space-name">Name</label>
         <input id="new-space-name" class="new-space-name" name="name" type="text" required maxlength="30">
       </section>
-      <section class="section">
+      <section class="form-section">
         <label for="new-space-hue">Color <span class="additional">(use the slider)</span></label>
         <div class="color-display"></div>
         <input id="new-space-hue" class="new-space-hue" name="hue" type="range" min="0" max="360" value="0" required>
@@ -44,19 +44,60 @@
     <form>
       <h1></h1>
       <hr>
-      <section class="section">
-        <label for="new-space-name">Name</label>
-        <input id="new-space-name" class="new-space-name" name="name" type="text" required maxlength="30">
+      <section class="form-section">
+        <label for="edit-space-name">Name</label>
+        <input id="edit-space-name" class="edit-space-name" name="name" type="text" required maxlength="30">
       </section>
-      <section class="section">
-        <label for="new-space-hue">Color <span class="additional">(use the slider)</span></label>
+      <section class="form-section">
+        <label for="edit-space-hue">Color <span class="additional">(use the slider)</span></label>
         <div class="color-display"></div>
-        <input id="new-space-hue" class="new-space-hue" name="hue" type="range" min="0" max="360" value="0" required>
+        <input id="edit-space-hue" class="edit-space-hue" name="hue" type="range" min="0" max="360" value="0" required>
       </section>
       <div class="buttons">
         <button type="button" class="cancel-button">Cancel</button>
         <button type="button" class="delete-button">Delete</button>
         <button type="submit" class="create-button">Save</button>
+      </div>
+    </form>
+  </dialog>
+  <dialog id="new-task-dialog">
+    <form>
+      <h1></h1>
+      <hr>
+      <section class="form-section">
+        <label for="new-task-name">Name</label>
+        <input id="new-task-name" class="new-task-name" name="name" type="text" required maxlength="80">
+      </section>
+      <section class="form-section">
+        <label for="new-task-description">Description <span class="additional">(optional)</span></label>
+        <textarea id="new-task-description" class="new-task-description" name="description" maxlength="1000"></textarea>
+      </section>
+      <section class="form-section">
+        <div class="form-subsection">
+          <label>Priority</label>
+          <div class="options">
+            <div class="input-wrapper">
+              <input type="radio" name="priority" id="radio-priority-high" value="high" class="radio-priority-high">
+            </div>
+            <div class="input-wrapper">
+              <input type="radio" name="priority" id="radio-priority-medium" value="high" class="radio-priority-medium">
+            </div>
+            <div class="input-wrapper">
+              <input type="radio" name="priority" id="radio-priority-low" value="low" class="radio-priority-low">
+            </div>
+            <div class="input-wrapper">
+              <input type="radio" name="priority" id="radio-priority-none" value="none" class="radio-priority-none" checked>
+            </div>
+          </div>
+        </div>
+        <div class="form-subsection">
+          <label for="new-task-date">Due date</label>
+          <input type="date" name="date" id="new-task-date" class="new-task-date" required>
+        </div>
+      </section>
+      <div class="buttons">
+        <button type="button" class="cancel-button">Cancel</button>
+        <button type="submit" class="create-button">Create</button>
       </div>
     </form>
   </dialog>

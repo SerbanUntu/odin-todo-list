@@ -4,6 +4,7 @@ import './styles/util.css';
 import defaults from './data/init.json';
 import { addSpaceButton, changeSpaceButton, removeSpaceButton } from './components/sidebar';
 import './components/new-space-dialog';
+import './components/new-task-dialog';
 import { loadSpace } from './components/space';
 
 const IGNORE_SAVE_FLAG = true;

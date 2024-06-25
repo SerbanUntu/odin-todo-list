@@ -1,0 +1,87 @@
+dialog#new-task-dialog {
+  section:has(> .form-subsection) {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .form-subsection {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .input-wrapper {
+    position: relative;
+  }
+
+  .svg-wrapper {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  input[type="radio"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    appearance: none;
+    border-radius: 9999px;
+    cursor: pointer;
+  }
+
+  .radio-priority-high {
+    background: var(--red-low);
+    border: 2px solid var(--red);
+    &:checked, &:hover {
+      ~ .svg-wrapper {
+        svg {
+          fill: var(--red);
+        }
+      }
+    }
+  }
+
+  .radio-priority-medium {
+    background: var(--yellow-low);
+    border: 2px solid var(--yellow);
+    &:checked, &:hover {
+      ~ .svg-wrapper {
+        svg {
+          fill: var(--yellow);
+        }
+      }
+    }
+  }
+
+  .radio-priority-low {
+    background: var(--light-blue-low);
+    border: 2px solid var(--light-blue);
+    &:checked, &:hover {
+      ~ .svg-wrapper {
+        svg {
+          fill: var(--light-blue);
+        }
+      }
+    }
+  }
+
+  .radio-priority-none {
+    border: 2px solid var(--neutral-50);
+    &:checked, &:hover {
+      ~ .svg-wrapper {
+        svg {
+          fill: var(--neutral-50);
+        }
+      }
+    }
+  }
+}

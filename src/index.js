@@ -2,7 +2,7 @@ import './styles/reset.css';
 import './styles/main.css';
 import './styles/util.css';
 import defaultSpaces from './data/init.json';
-import { addSpaceButton, changeSpaceButton, removeSpaceButton, addSelectedStyles, removeSelectedStyles } from './components/sidebar';
+import { Sidebar } from './components/sidebar';
 import './components/new-space-dialog';
 import './components/new-task-dialog';
 import { Space } from './components/space';
@@ -13,12 +13,12 @@ export class App {
 
   static currentSpace;
   static spaces = Saver.getData('@spaces', defaultSpaces).map(
-    space => new Space(space.name, space.hue, space.auto, space.list, space.tasks, space.sections)
+    space => new Space(space.name, space.hue, space.auto, space.list, space.sections)
   );
 
   static init() {
     for(let space of App.spaces) {
-      addSpaceButton(space);
+      Sidebar.addSpaceButton(space);
     }
 
     App.loadSpace(App.spaces[0]);
@@ -31,7 +31,7 @@ export class App {
 
   static addSpace(space) {
     App.spaces.push(space);
-    addSpaceButton(space);
+    Sidebar.addSpaceButton(space);
     App.loadSpace(space);
   }
 
@@ -42,7 +42,7 @@ export class App {
           App.spaces[index].name = newName;
         }
         App.spaces[index].hue = newHue;
-        changeSpaceButton(oldName, newName, App.spaces[index]);
+        Sidebar.changeSpaceButton(oldName, newName);
         App.loadSpace(App.spaces[index]);
       }
     });
@@ -52,7 +52,7 @@ export class App {
     App.spaces.forEach((space, index) => {
       if(space.name === name) {
         App.spaces.splice(index, 1);
-        removeSpaceButton(name);
+        Sidebar.removeSpaceButton(name);
         App.loadSpace(App.spaces[0]);
         return;
       }
@@ -61,12 +61,12 @@ export class App {
 
   static loadSpace(space) {
     const main = document.querySelector('main');
-    if(App.currentSpace) removeSelectedStyles(App.currentSpace.name);
-    App.currentSpace = new Space(space.name, space.hue, space.auto, space.list, space.tasks, space.sections);
+    if(App.currentSpace) Sidebar.removeSelectedStyles(App.currentSpace.name);
+    App.currentSpace = space;
     document.title = `${space.name} | @spaces`;
     main.innerHTML = '';
     document.body.style.background = `hsl(${space.hue}deg 15% 10% / 100%)`;
-    addSelectedStyles(space.name);
+    Sidebar.addSelectedStyles(space.name);
     main.appendChild(App.currentSpace.getSpaceComponent());
   }
 }

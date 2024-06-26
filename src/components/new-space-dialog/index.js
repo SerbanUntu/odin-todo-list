@@ -24,7 +24,7 @@ cancelButton.addEventListener('click', e => {
 
 form.addEventListener('submit', e => {
   e.preventDefault();
-  const newSpace = new Space(nameInput.value, hueInput.value, false, false, []);
+  const newSpace = new Space(nameInput.value, hueInput.value, false, false);
   App.addSpace(newSpace);
   dialog.close();
 });

@@ -34,12 +34,8 @@ export class Task {
   getSectionName() {
     const daysUntilToday = this.getDaysUntilToday();
     const daysUntilEndOfWeek = this.getDaysUntilEndOfWeek();
-    switch(daysUntilToday) {
-      case 0:
-        return 'Today';
-      case -1:
-        return 'Tomorrow';
-    }
+    if(daysUntilToday === 0)
+      return 'Today';
     if(daysUntilToday > 0)
       return 'Overdue';
     if(daysUntilToday >= -daysUntilEndOfWeek)

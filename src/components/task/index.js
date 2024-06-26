@@ -2,47 +2,13 @@ import './index.css';
 import editIconPath from '../../images/edit.svg';
 import transferIconPath from '../../images/transfer.svg';
 
-class DateTag {
-  constructor(formattedDate) {
-    this.formattedDate = formattedDate;
-  }
-
-  getDateTagComponent() {
-    function setTag(text, identifier) {
-      tagComponent.textContent = text;
-      tagComponent.classList.add(`${identifier}-tag`);
-    }
-
-    const dayDifference = parseInt((new Date(Task.formatDate(new Date())) - new Date(this.formattedDate)) / 86_400_000); // Reset hours and minutes
-    let dayOfWeek = (new Date()).getDay();
-    if(dayOfWeek === 0) dayOfWeek = 7;
-    const maxDayDifference = 7 - dayOfWeek;
-    const tagComponent = document.createElement('div');
-    tagComponent.classList.add('tag');
-    switch(dayDifference) {
-      case 1:
-        setTag('yesterday', 'yesterday');
-        break;
-      case 0:
-        setTag('today', 'today');
-        break;
-      case -1:
-        setTag('tomorrow', 'tomorrow');
-        break;
-    }
-    if(dayDifference > 1)
-      setTag(this.formattedDate, 'overdue');
-    if(dayDifference < -1) {
-      if(dayDifference >= -maxDayDifference)
-        setTag(this.formattedDate, 'this-week');
-      else
-        setTag(this.formattedDate, 'after-this-week');
-    }
-    return tagComponent;
-  }
-}
-
 export class Task {
+  name;
+  description;
+  priority;
+  dueDate;
+  completed;
+
   constructor(name, description, priority, dueDate, completed) {
     this.name = name;
     this.description = description;
@@ -65,18 +31,16 @@ export class Task {
     return 7 - dayOfWeek;
   }
 
-  getSection() {
+  getSectionName() {
     const daysUntilToday = this.getDaysUntilToday();
     const daysUntilEndOfWeek = this.getDaysUntilEndOfWeek();
     switch(daysUntilToday) {
-      case 1:
-        return 'Yesterday';
       case 0:
         return 'Today';
       case -1:
         return 'Tomorrow';
     }
-    if(daysUntilToday > 1)
+    if(daysUntilToday > 0)
       return 'Overdue';
     if(daysUntilToday >= -daysUntilEndOfWeek)
       return 'This Week';

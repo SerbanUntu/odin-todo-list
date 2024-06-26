@@ -6,7 +6,7 @@
 
   &:hover {
     .edit-icon, .transfer-icon {
-      display: block;
+      visibility: visible;
     }
   }
 
@@ -14,6 +14,12 @@
     display: flex;
     gap: .5rem;
     align-items: center;
+  }
+
+  p.large {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .priority-bubble {
@@ -25,6 +31,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 
     svg {
       display: none;
@@ -104,7 +111,7 @@
   }
 
   .edit-icon, .transfer-icon {
-    display: none;
+    visibility: hidden;
   }
 
   .edit-icon {

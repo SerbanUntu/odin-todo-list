@@ -1,49 +1,95 @@
-import { addSelectedStyles, removeSelectedStyles } from '../sidebar';
 import { Task } from '../task';
 import './index.css';
 
-const main = document.querySelector('main');
-export let currentSpaceName = '';
+export class Space {
+  static currentSpaceName = '';
+  static currentSpace;
+  name;
+  hue;
+  auto;
+  list;
+  tasks;
+  sections;
 
-export function loadSpace(name, space) {
-  document.title = `${name} | @spaces`;
-  main.innerHTML = '';
-  document.body.style.background = `hsl(${space.hue}deg 15% 10% / 100%)`;
-  if(currentSpaceName) removeSelectedStyles(currentSpaceName);
-  addSelectedStyles(name);
-  const domCurrentSpace = document.createElement('div');
-  domCurrentSpace.classList.add('space-content');
-  domCurrentSpace.innerHTML = `
-    <h1 class="special"><span style="color: hsl(${space.hue}deg 90% 60% / 100%);">@</span>${name}</h1>
-    <p class="text-50">${space.tasks.length === 0 ? 'No' : space.tasks.length} task${space.tasks.length !== 1 ? 's' : ''}</p>
-  `;
-  currentSpaceName = name;
-  main.appendChild(domCurrentSpace);
-  // Section logic
-  let currentSection = '';
-  let currentTasks = [];
-  for(let task of space.tasks) {
-    let currentTask = new Task(task.name, task.description, task.priority, task.dueDate, task.completed);
-    if(currentSection === '') currentSection = currentTask.getSection();
-    if(currentTask.getSection() === currentSection)
-      currentTasks.push(task);
-    else
-      domCurrentSpace.appendChild(getSectionComponent(currentSection, space.hue, currentTasks));
+  constructor(name, hue, auto, list, tasks) {
+    this.name = name;
+    this.hue = hue;
+    this.auto = auto;
+    this.list = list;
+    this.tasks = tasks;
+    this.sections = {};
+    this.setSectionsProperty();
   }
-  domCurrentSpace.appendChild(getSectionComponent(currentSection, space.hue, currentTasks));
+
+  setSectionsProperty() {
+    let tasksObject = {
+      "Overdue": [],
+      "Today": [],
+      "Tomorrow": [],
+      "This Week": [],
+      "Next Week": [],
+      "Upcoming": []
+    };
+    for(let task of this.tasks) {
+      let currentTask = new Task(task.name, task.description, task.priority, task.dueDate, task.completed);
+      tasksObject[currentTask.getSectionName()].push(currentTask);
+    }
+    ["Overdue", "Today", "Tomorrow", "This Week", "Next Week", "Upcoming"].forEach(sectionName => {
+      this.sections[sectionName] = new Section(sectionName, this.hue, tasksObject[sectionName]);
+    });
+  }
+
+  getSpaceComponent() {
+    let domCurrentSpace = document.createElement('div');
+    domCurrentSpace.classList.add('space-content');
+    domCurrentSpace.innerHTML = `
+      <h1 class="special"><span style="color: hsl(${this.hue}deg 90% 60% / 100%);">@</span>${this.name}</h1>
+      <p class="text-50">${this.tasks.length === 0 ? 'No' : this.tasks.length} task${this.tasks.length !== 1 ? 's' : ''}</p>
+    `;
+    Space.currentSpaceName = this.name;
+    Space.currentSpace = this;
+    ["Overdue", "Today", "Tomorrow", "This Week", "Next Week", "Upcoming"].forEach(sectionName => {
+      let sectionComponent = this.sections[sectionName].getSectionComponent();
+      if(this.sections[sectionName].tasks.length === 0)
+        sectionComponent.style.display = 'none';
+      domCurrentSpace.appendChild(sectionComponent);
+    });
+    return domCurrentSpace;
+  }
+
 }
 
-function getSectionComponent(name, hue, tasks) {
-  const currentSection = document.createElement('section');
-  currentSection.classList.add('task-section');
-  currentSection.innerHTML = `
-    <h3>${name}</h3>
-    <hr style="background: hsl(${hue}deg 90% 60% / 100%);">
-  `;
+class Section {
+  name;
+  hue;
+  tasks;
 
-  for(let task of tasks) {
-    let currentTask = new Task(task.name, task.description, task.priority, task.dueDate, task.completed);
-    currentSection.appendChild(currentTask.getTaskComponent());
+  constructor(name, hue, tasks) {
+    this.name = name;
+    this.hue = hue;
+    this.tasks = tasks;
   }
-  return currentSection;
+
+  getSectionComponent() {
+    const currentSection = document.createElement('section');
+    currentSection.classList.add('task-section', `task-section-${this.name.toLowerCase().replace(/\s/g, '')}`);
+    currentSection.innerHTML = `
+      <h3>${this.name}</h3>
+      <hr style="background: hsl(${this.hue}deg 90% 60% / 100%);">
+    `;
+
+    for(let task of this.tasks) {
+      let currentTask = new Task(task.name, task.description, task.priority, task.dueDate, task.completed);
+      currentSection.appendChild(currentTask.getTaskComponent());
+    }
+    return currentSection;
+  }
+
+  addTask(name, description, priority, dueDate, completed) {
+    let currentTask = new Task(name, description, priority, dueDate, completed);
+    let component = document.querySelector(`.task-section-${this.name.toLowerCase().replace(/\s/g, '')}`);
+    if(component.style.display === 'none')
+      component.style.display = 'flex';
+    component.appendChild(currentTask.getTaskComponent());
+  }
 }

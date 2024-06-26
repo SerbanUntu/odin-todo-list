@@ -1,4 +1,4 @@
-import { loadSpace } from "../space";
+import { loadSpace } from "../..";
 import './index.css';
 import settingsIconPath from '../../images/settings.svg';
 import noIconPath from '../../images/no.svg';

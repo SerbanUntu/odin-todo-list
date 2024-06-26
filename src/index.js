@@ -1,73 +1,74 @@
 import './styles/reset.css';
 import './styles/main.css';
 import './styles/util.css';
-import defaults from './data/init.json';
+import defaultSpaces from './data/init.json';
 import { addSpaceButton, changeSpaceButton, removeSpaceButton, addSelectedStyles, removeSelectedStyles } from './components/sidebar';
 import './components/new-space-dialog';
 import './components/new-task-dialog';
 import { Space } from './components/space';
+import { Saver } from './util/saver';
 
-const IGNORE_SAVE_FLAG = true;
+export class App {
+  static IGNORE_SAVE_FLAG = false;
 
-let spaces = JSON.parse(localStorage.getItem('@spaces'));
-let spacesOrder = JSON.parse(localStorage.getItem('@spaces-order'));
+  static currentSpace;
+  static spaces = Saver.getData('@spaces', defaultSpaces).map(
+    space => new Space(space.name, space.hue, space.auto, space.list, space.tasks, space.sections)
+  );
 
-if(spaces === null || Object.entries(spaces).length === 0) {
-  spaces = defaults.spaces;
-} 
+  static init() {
+    for(let space of App.spaces) {
+      addSpaceButton(space);
+    }
 
-if(spacesOrder === null) {
-  spacesOrder = defaults.order;
-}
+    App.loadSpace(App.spaces[0]);
 
-for(let name of spacesOrder) {
-  addSpaceButton(name, spaces[name]);
-}
-
-loadSpace(spacesOrder[0], spaces[spacesOrder[0]]);
-
-if(!IGNORE_SAVE_FLAG) {
-  window.addEventListener("beforeunload", e => {
-    e.preventDefault();
-    localStorage.setItem('@spaces', JSON.stringify(spaces));
-    const spaceButtonNames = document.querySelectorAll('.sidebar nav.space-navigation .name-and-labels p');
-    let newOrder = [];
-    spaceButtonNames.forEach(name => {
-      newOrder.push(name.textContent.slice(1));
+    window.addEventListener("beforeunload", e => {
+      e.preventDefault();
+      Saver.saveData('@spaces', App.spaces);
     });
-    localStorage.setItem('@spaces-order', JSON.stringify(newOrder));
-  });
-}
-
-export function addSpace(name, space) {
-  spaces[name] = space;
-  addSpaceButton(name, space);
-  loadSpace(name, space);
-}
-
-export function editSpace(oldName, newName, newHue) {
-  if(oldName !== newName) {
-    spaces[newName] = spaces[oldName];
-    delete spaces[oldName];
   }
-  spaces[newName].hue = newHue;
-  changeSpaceButton(oldName, newName, spaces[newName]);
-  loadSpace(newName, spaces[newName]);
+
+  static addSpace(space) {
+    App.spaces.push(space);
+    addSpaceButton(space);
+    App.loadSpace(space);
+  }
+
+  static editSpace(oldName, newName, newHue) {
+    App.spaces.forEach((space, index) => {
+      if(space.name === oldName) {
+        if(oldName !== newName) {
+          App.spaces[index].name = newName;
+        }
+        App.spaces[index].hue = newHue;
+        changeSpaceButton(oldName, newName, App.spaces[index]);
+        App.loadSpace(App.spaces[index]);
+      }
+    });
+  }
+
+  static deleteSpace(name) {
+    App.spaces.forEach((space, index) => {
+      if(space.name === name) {
+        App.spaces.splice(index, 1);
+        removeSpaceButton(name);
+        App.loadSpace(App.spaces[0]);
+        return;
+      }
+    });
+  }
+
+  static loadSpace(space) {
+    const main = document.querySelector('main');
+    if(App.currentSpace) removeSelectedStyles(App.currentSpace.name);
+    App.currentSpace = new Space(space.name, space.hue, space.auto, space.list, space.tasks, space.sections);
+    document.title = `${space.name} | @spaces`;
+    main.innerHTML = '';
+    document.body.style.background = `hsl(${space.hue}deg 15% 10% / 100%)`;
+    addSelectedStyles(space.name);
+    main.appendChild(App.currentSpace.getSpaceComponent());
+  }
 }
 
-export function deleteSpace(name) {
-  delete spaces[name];
-  removeSpaceButton(name);
-  loadSpace(spacesOrder[0], spaces[spacesOrder[0]]);
-}
-
-export function loadSpace(name, space) {
-  const main = document.querySelector('main');
-  let currentSpace = new Space(name, space.hue, space.auto, space.list, space.tasks);
-  document.title = `${name} | @spaces`;
-  main.innerHTML = '';
-  document.body.style.background = `hsl(${space.hue}deg 15% 10% / 100%)`;
-  if(Space.currentSpaceName) removeSelectedStyles(Space.currentSpaceName);
-  addSelectedStyles(name);
-  main.appendChild(currentSpace.getSpaceComponent());
-}
+App.init();

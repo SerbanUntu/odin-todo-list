@@ -1,4 +1,4 @@
-import { deleteSpace, editSpace } from '../..';
+import { App } from '../..';
 import './index.css';
 
 const dialog = document.querySelector('dialog#edit-space-dialog');
@@ -12,11 +12,11 @@ const colorDisplay = dialog.querySelector('.color-display');
 
 let oldName = '';
 
-export function loadEditDialog(name, space) {
+export function loadEditDialog(space) {
   dialog.showModal();
-  oldName = name;
-  formName.textContent = `Edit @${name}`;
-  nameInput.value = name;
+  oldName = space.name;
+  formName.textContent = `Edit @${space.name}`;
+  nameInput.value = space.name;
   colorDisplay.style.background = `hsl(${space.hue}deg 90% 60% / 100%)`;
   hueInput.value = space.hue;
 }
@@ -28,13 +28,13 @@ cancelButton.addEventListener('click', e => {
 
 deleteButton.addEventListener('click', e => {
   e.preventDefault();
-  deleteSpace(oldName);
+  App.deleteSpace(oldName);
   dialog.close();
 });
 
 form.addEventListener('submit', e => {
   e.preventDefault();
-  editSpace(oldName, nameInput.value, hueInput.value);
+  App.editSpace(oldName, nameInput.value, hueInput.value);
   dialog.close();
 });
 

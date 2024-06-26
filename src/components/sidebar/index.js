@@ -1,4 +1,4 @@
-import { loadSpace } from "../..";
+import { App } from "../..";
 import './index.css';
 import settingsIconPath from '../../images/settings.svg';
 import noIconPath from '../../images/no.svg';
@@ -6,17 +6,17 @@ import { loadEditDialog } from "../edit-space-dialog";
 
 const domNav = document.querySelector('nav.space-navigation');
 
-export function addSpaceButton(name, space) {
+export function addSpaceButton(space) {
   const currentButton = document.createElement('div');
-  currentButton.dataset.name = name;
+  currentButton.dataset.name = space.name;
   currentButton.dataset.hue = space.hue;
-  currentButton.dataset.tasks = space.tasks.length;
+  currentButton.dataset.tasks = space.getTotalTasks();
   currentButton.classList.add('space-button');
   currentButton.innerHTML = `
     <div class="name-and-labels">
-      <p class="space-button-name">@${name}</p>
+      <p class="space-button-name">@${space.name}</p>
     </div>
-    <p class="tasks-count">${space.tasks.length > 0 ? space.tasks.length : 'None'}</p>
+    <p class="tasks-count">${space.getTotalTasks() > 0 ? space.getTotalTasks() : 'None'}</p>
   `; //! Prevent HTML injection
   if(space.auto === false)
     currentButton.innerHTML += `<img class="settings-icon" src="${settingsIconPath}" alt="Settings">`;
@@ -38,12 +38,12 @@ export function addSpaceButton(name, space) {
   }
   currentButton.addEventListener('click', e => {
     e.preventDefault();
-    loadSpace(currentButton.dataset.name, space);
+    App.loadSpace(space);
   });
   const domSettingsIcon = currentButton.querySelector('.settings-icon');
   if(domSettingsIcon) domSettingsIcon.addEventListener('click', e => {
     e.preventDefault();
-    loadEditDialog(currentButton.dataset.name, space);
+    loadEditDialog(space);
   });
 }
 

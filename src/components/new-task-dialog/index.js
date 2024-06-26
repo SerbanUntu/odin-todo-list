@@ -1,4 +1,4 @@
-import { Space } from '../space';
+import { App } from '../..';
 import { Task } from '../task';
 import './index.css';
 
@@ -16,7 +16,7 @@ const priorityInput = dialog.querySelectorAll('input[name="priority"]');
 addTaskButton.addEventListener('click', e => {
   e.preventDefault();
   dialog.showModal();
-  formName.textContent = `New task in @${Space.currentSpaceName}`;
+  formName.textContent = `New task in @${App.currentSpace.name}`;
   form.reset();
 });
 
@@ -32,9 +32,8 @@ form.addEventListener('submit', e => {
     if(input.checked)
       priorityInputValue = input.value;
   });
-  //! Need to refactor this
-  let currentTask = new Task(nameInput.value, descriptionInput.value, priorityInputValue, dateInput.value, false);
-  Space.currentSpace.sections[currentTask.getSectionName()].addTask(nameInput.value, descriptionInput.value, priorityInputValue, dateInput.value, false);
+  let newTask = new Task(nameInput.value, descriptionInput.value, priorityInputValue, dateInput.value, false);
+  App.currentSpace.addTask(newTask);
   dialog.close();
 });
 

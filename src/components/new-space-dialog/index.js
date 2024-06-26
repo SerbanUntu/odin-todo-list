@@ -1,4 +1,5 @@
-import { addSpace } from "../..";
+import { App } from "../..";
+import { Space } from "../space";
 import './index.css';
 
 const newSpaceButton = document.querySelector('.new-space');
@@ -23,13 +24,8 @@ cancelButton.addEventListener('click', e => {
 
 form.addEventListener('submit', e => {
   e.preventDefault();
-  const newSpace = {
-    hue: hueInput.value,
-    auto: false,
-    list: false,
-    tasks: []
-  };
-  addSpace(nameInput.value, newSpace);
+  const newSpace = new Space(nameInput.value, hueInput.value, false, false, []);
+  App.addSpace(newSpace);
   dialog.close();
 });
 

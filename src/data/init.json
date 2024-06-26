@@ -1,28 +1,24 @@
-{
-  "spaces": {
-    "home": {
-      "hue": 36,
-      "auto": true,
-      "list": false,
-      "tasks": [
-        {
-          "name": "Create your first task",
-          "description": "Click the `Add task` button in the sidebar.",
-          "priority": "high",
-          "dueDate": "",
-          "completed": false
-        },
-        {
-          "name": "Star this project on Github!",
-          "description": "https://github.com/SerbanUntu/odin-todo-list",
-          "priority": "high",
-          "dueDate": "",
-          "completed": false
-        }
-      ]
-    }
-  },
-  "order": [
-    "home"
-  ]
-}
+[
+  {
+    "name": "home",
+    "hue": 36,
+    "auto": true,
+    "list": false,
+    "tasks": [
+      {
+        "name": "Create your first task",
+        "description": "Click the `Add task` button in the sidebar.",
+        "priority": "high",
+        "dueDate": "",
+        "completed": false
+      },
+      {
+        "name": "Star this project on Github!",
+        "description": "https://github.com/SerbanUntu/odin-todo-list",
+        "priority": "high",
+        "dueDate": "",
+        "completed": false
+      }
+    ]
+  }
+]

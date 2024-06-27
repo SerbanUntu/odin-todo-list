@@ -9,7 +9,7 @@ import { Space } from './components/space';
 import { Saver } from './util/saver';
 
 export class App {
-  static IGNORE_SAVE_FLAG = false;
+  static IGNORE_SAVE_FLAG = true;
 
   static currentSpace;
   static spaces = Saver.getData('@spaces', defaultSpaces).map(
@@ -27,6 +27,9 @@ export class App {
       e.preventDefault();
       Saver.saveData('@spaces', App.spaces);
     });
+    
+    let credits = document.querySelector('.credits > small');
+    credits.textContent = `©${(new Date()).getFullYear()} Serban Untu. Inspired by Todoist.`;
   }
 
   static addSpace(space) {

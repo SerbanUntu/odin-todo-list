@@ -19,13 +19,13 @@ export function loadEditTaskDialog(task) {
     if(task.priority === priority) {
       optionsContainer.innerHTML += `
         <div class="input-wrapper">
-          <input type="radio" name="priority" id="edit-task-radio-priority-${priority}" value="${priority}" class="radio-priority-${priority}" checked>
+          <input type="radio" name="priority" id="edit-task-radio-priority-${priority}" value="${priority}" class="radio-priority-${priority} round" checked>
         </div>
       `;
     } else {
       optionsContainer.innerHTML += `
         <div class="input-wrapper">
-          <input type="radio" name="priority" id="edit-task-radio-priority-${priority}" value="${priority}" class="radio-priority-${priority}">
+          <input type="radio" name="priority" id="edit-task-radio-priority-${priority}" value="${priority}" class="radio-priority-${priority} round">
         </div>
       `;
     }

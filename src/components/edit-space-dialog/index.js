@@ -1,4 +1,5 @@
 import { App } from '../..';
+import { addErrorMessage, removeErrorMessages } from '../new-space-dialog';
 import './index.css';
 
 const dialog = document.querySelector('dialog#edit-space-dialog');
@@ -13,6 +14,7 @@ const colorDisplay = dialog.querySelector('.color-display');
 let oldName = '';
 
 export function loadEditSpaceDialog(space) {
+  removeErrorMessages(dialog);
   dialog.showModal();
   oldName = space.name;
   formName.textContent = `Edit @${space.name}`;
@@ -28,14 +30,27 @@ cancelButton.addEventListener('click', e => {
 
 deleteButton.addEventListener('click', e => {
   e.preventDefault();
-  App.deleteSpace(oldName);
-  dialog.close();
+  let name = prompt(`To permanently delete @${oldName}, type "delete"`);
+  if(name === 'delete') {
+    App.deleteSpace(oldName);
+    dialog.close();
+  }
 });
 
 form.addEventListener('submit', e => {
   e.preventDefault();
-  App.editSpace(oldName, nameInput.value, hueInput.value);
-  dialog.close();
+  removeErrorMessages(dialog);
+  let flag = true;
+  App.spaces.forEach(space => {
+    if(space.name === nameInput.value && space.name !== oldName)
+      flag = false;
+  });
+  if(!flag)
+    addErrorMessage("This name already belongs to a space", form);
+  else {
+    App.editSpace(oldName, nameInput.value, hueInput.value);
+    dialog.close();
+  }
 });
 
 hueInput.addEventListener('input', e => {

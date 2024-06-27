@@ -26,8 +26,9 @@
     position: relative;
     width: 1.5rem;
     height: 1.5rem;
-    border-radius: 9999px;
+    padding: 0;
     border: 2px solid var(--neutral-50);
+    background: transparent;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -47,7 +48,7 @@
     text-decoration: line-through;
     color: var(--neutral-50);
 
-    small.desc, .tag {
+    p.desc, .tag {
       display: none;
     }
   }
@@ -127,7 +128,7 @@
     margin-left: auto;
   }
 
-  small.desc {
+  p.desc {
     overflow-wrap: break-word;
   }
 }

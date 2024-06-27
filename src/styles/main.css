@@ -33,7 +33,7 @@ body {
   height: 100vh;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 400px 3fr;
+  grid-template-columns: 40ch 3fr;
   grid-template-rows: 1fr min-content;
   font-family: "Inter", sans-serif;
   font-size: 16px;
@@ -54,9 +54,12 @@ hr {
   background-color: var(--neutral-50);
 }
 
-h1.special { /* ! Fix positioning for numbers and capital letters */
+h1.special {
   font-size: 3rem;
   font-weight: 200;
+  span {
+    vertical-align: text-top;
+  }
 }
 
 p.large {
@@ -64,13 +67,9 @@ p.large {
   font-weight: 300;
 }
 
-small {
-  font-size: 0.85rem;
-  color: var(--neutral-50);
-}
-
-small.desc {
+p.desc {
   font-weight: 400;
+  color: var(--neutral-50);
 }
 
 button {
@@ -116,7 +115,7 @@ button {
 }
 
 dialog {
-  width: 600px;
+  width: 60ch;
   padding: 3rem;
   background: var(--neutral-15);
   border: none;
@@ -219,6 +218,7 @@ label .additional {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--neutral-50);
 }
 
 .icon {

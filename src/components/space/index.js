@@ -36,11 +36,12 @@ export class Space {
 
   getSpaceComponent() {
     let domCurrentSpace = document.createElement('div');
-    let totalTasks = this.getTotalTasks();
+    let totalTasks = this.getTotalTasksLeft();
     domCurrentSpace.classList.add('space-content');
+    //! Prevent injection
     domCurrentSpace.innerHTML = `
       <h1 class="special"><span style="color: hsl(${this.hue}deg 90% 60% / 100%);">@</span>${this.name}</h1>
-      <p class="text-50 space-total-tasks">${totalTasks === 0 ? 'No' : totalTasks} task${totalTasks !== 1 ? 's' : ''}</p>
+      <p class="text-50 space-total-tasks">${totalTasks === 0 ? 'No' : totalTasks} task${totalTasks !== 1 ? 's' : ''} left</p>
     `;
     this.sections.forEach(section => {
       let sectionComponent = section.getSectionComponent();
@@ -51,13 +52,13 @@ export class Space {
 
   getSidebarButtonComponent() {
     const currentButton = document.createElement('div');
-    currentButton.dataset.tasks = this.getTotalTasks();
+    currentButton.dataset.tasks = this.getTotalTasksLeft();
     currentButton.classList.add('space-button', `space-button-${this.name}`);
     currentButton.innerHTML = `
       <div class="name-and-labels">
         <p class="space-button-name">@${this.name}</p>
       </div>
-      <p class="tasks-count">${this.getTotalTasks() > 0 ? this.getTotalTasks() : 'None'}</p>
+      <p class="tasks-count">${this.getTotalTasksLeft() > 0 ? this.getTotalTasksLeft() : 'None'}</p>
     `; //! Prevent HTML injection
     if(!this.auto) {
       let settingsIcon = new Icon('settings');
@@ -92,10 +93,10 @@ export class Space {
     return currentButton;
   }
 
-  getTotalTasks() {
+  getTotalTasksLeft() {
     let result = 0;
     this.sections.forEach(section => {
-      result += section.tasks.length;
+      section.tasks.forEach(task => { result += task.completed === false ? 1 : 0 });
     });
     return result;
   }
@@ -159,10 +160,10 @@ export class Space {
     let spaceButton = document.querySelector(`.space-button-${this.name}`);
     let spaceButtonText = spaceButton.querySelector(`.tasks-count`);
     let totalTasksText = document.querySelector('.space-total-tasks');
-    const totalTasks = this.getTotalTasks();
+    const totalTasks = this.getTotalTasksLeft();
     spaceButton.dataset.tasks = totalTasks;
     spaceButtonText.textContent = `${totalTasks > 0 ? totalTasks : 'None'}`;
-    totalTasksText.textContent = `${totalTasks === 0 ? 'No' : totalTasks} task${totalTasks !== 1 ? 's' : ''}`;
+    totalTasksText.textContent = `${totalTasks === 0 ? 'No' : totalTasks} task${totalTasks !== 1 ? 's' : ''} left`;
   }
 }
 
@@ -191,6 +192,7 @@ export class Section {
     const currentSection = document.createElement('section');
     currentSection.classList.add('task-section', `task-section-${this.name.toLowerCase().replace(/\s/g, '')}`);
     currentSection.dataset.tasks = this.tasks.length;
+    //! Prevent injection
     currentSection.innerHTML = `
       <h3>${this.name}</h3>
       <hr style="background: hsl(${App.currentSpace.hue}deg 90% 60% / 100%);">

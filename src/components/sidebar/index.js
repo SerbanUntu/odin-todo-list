@@ -23,7 +23,7 @@ export class Sidebar {
   static addSelectedStyles(name) {
     const currentButton = document.querySelector(`.space-button-${name}`);
     if(currentButton) {
-      currentButton.style.borderLeft = `4px solid hsl(${App.currentSpace.hue}deg 90% 60% / 100%)`;
+      currentButton.style.borderLeft = `.25rem solid hsl(${App.currentSpace.hue}deg 90% 60% / 100%)`;
       currentButton.style.background = `hsl(${App.currentSpace.hue}deg 90% 60% / 5%)`;
     }
   }

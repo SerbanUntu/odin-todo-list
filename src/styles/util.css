@@ -6,9 +6,21 @@
   color: var(--neutral-50);
 }
 
+.text-red {
+  color: var(--red);
+}
+
+.text-center {
+  text-align: center;
+}
+
 .y-scroll {
   overflow-y: auto;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
   scrollbar-color: var(--neutral-20) transparent;
+}
+
+.round {
+  border-radius: 9999rem;
 }

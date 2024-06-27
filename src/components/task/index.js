@@ -96,12 +96,13 @@ export class Task {
   getTaskComponent() {
     const taskComponent = document.createElement('div');
     taskComponent.classList.add('task', `task-${this.id}`);
+    //! Prevent injection
     taskComponent.innerHTML = `
       <div class="task-body">
-        <div class="priority-bubble priority-${this.priority}"></div>
+        <button class="priority-bubble priority-${this.priority} round"></button>
         <p class="large" title="${this.name}">${this.name}</p>
       </div>
-      <small class="desc">${this.description}</small>
+      <p class="desc">${this.description}</p>
     `;
     taskComponent.dataset.completed = this.completed;
     const taskBody = taskComponent.querySelector('.task-body');
@@ -110,6 +111,7 @@ export class Task {
       e.preventDefault();
       this.completed = !this.completed;
       taskComponent.dataset.completed = taskComponent.dataset.completed === 'true' ? 'false' : 'true';
+      App.currentSpace.updateTaskNumberDependencies();
     });
     let tickIcon = (new Icon('tick')).getComponent();
     priorityBubble.appendChild(tickIcon);
@@ -161,14 +163,14 @@ export class Task {
     const component = this.getTaskComponentReference();
     const priorityBubble = component.querySelector('.priority-bubble');
     const taskName = component.querySelector('p.large');
-    const descriptionComponent = component.querySelector('small.desc');
+    const descriptionComponent = component.querySelector('p.desc');
     const oldTag = component.querySelector(`.tag`);
     const newTag = this.getDateTagComponent();
     const editIcon = component.querySelector('.edit-icon');
     const taskBody = component.querySelector('.task-body');
     oldTag.remove();
-    priorityBubble.classList.remove('priority-high', 'priority-medium', 'priority-low', 'priority-high');
-    priorityBubble.classList.add('priority-bubble', `priority-${this.priority}`);
+    priorityBubble.classList.remove('priority-high', 'priority-medium', 'priority-low', 'priority-none');
+    priorityBubble.classList.add('priority-bubble', `priority-${this.priority}`, 'round');
     taskName.textContent = this.name;
     descriptionComponent.textContent = this.description;
     taskBody.insertBefore(newTag, editIcon);

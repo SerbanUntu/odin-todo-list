@@ -19,7 +19,7 @@
   </div>
   <main class="content y-scroll"></main>
   <div class="credits">
-    <small>©2024 Serban Untu. Inspired by Todoist.</small>
+    <small></small>
   </div>
   <dialog id="new-space-dialog">
     <form>
@@ -27,7 +27,7 @@
       <hr>
       <section class="form-section">
         <label for="new-space-name">Name</label>
-        <input id="new-space-name" class="new-space-name" name="name" type="text" required maxlength="30">
+        <input id="new-space-name" class="new-space-name" name="name" type="text" required maxlength="30" placeholder="a-z, 0-9 and hyphens" pattern="^[a-z0-9\-]*$">
       </section>
       <section class="form-section">
         <label for="new-space-hue">Color <span class="additional">(use the slider)</span></label>
@@ -77,16 +77,16 @@
           <label>Priority</label>
           <div class="options">
             <div class="input-wrapper">
-              <input type="radio" name="priority" id="new-task-radio-priority-high" value="high" class="radio-priority-high">
+              <input type="radio" name="priority" id="new-task-radio-priority-high" value="high" class="radio-priority-high round">
             </div>
             <div class="input-wrapper">
-              <input type="radio" name="priority" id="new-task-radio-priority-medium" value="medium" class="radio-priority-medium">
+              <input type="radio" name="priority" id="new-task-radio-priority-medium" value="medium" class="radio-priority-medium round">
             </div>
             <div class="input-wrapper">
-              <input type="radio" name="priority" id="new-task-radio-priority-low" value="low" class="radio-priority-low">
+              <input type="radio" name="priority" id="new-task-radio-priority-low" value="low" class="radio-priority-low round">
             </div>
             <div class="input-wrapper">
-              <input type="radio" name="priority" id="new-task-radio-priority-none" value="none" class="radio-priority-none" checked>
+              <input type="radio" name="priority" id="new-task-radio-priority-none" value="none" class="radio-priority-none round" checked>
             </div>
           </div>
         </div>
@@ -145,7 +145,6 @@
         <button type="submit" class="create-button">Transfer</button>
       </div>
     </form>
-
   </dialog>
 </body>
 </html>

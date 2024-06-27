@@ -5,7 +5,7 @@
   padding: .25rem .5rem;
 
   &:hover {
-    .icon {
+    .icon:not(.tick-icon) {
       visibility: visible;
     }
   }
@@ -23,6 +23,7 @@
   }
 
   .priority-bubble {
+    position: relative;
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 9999px;
@@ -33,11 +34,12 @@
     justify-content: center;
     flex-shrink: 0;
 
-    svg {
+    .tick-icon {
+      position: absolute;
       display: none;
-      fill: var(--neutral-50);
-      width: 50%;
-      height: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
     }
   }
 
@@ -51,7 +53,7 @@
   }
 
   &[data-completed="true"] .priority-bubble, .priority-bubble:hover {
-    svg {
+    .tick-icon {
       display: block;
     }
   }
@@ -77,6 +79,12 @@
     border-color: var(--light-blue);
     svg {
       fill: var(--light-blue);
+    }
+  }
+
+  .priority-none {
+    svg {
+      fill: var(--neutral-50);
     }
   }
 
@@ -110,7 +118,7 @@
     background: var(--light-blue-low);
   }
 
-  .icon {
+  .icon:not(.tick-icon) {
     visibility: hidden;
     cursor: pointer;
   }

@@ -1,6 +1,8 @@
 import './index.css';
 import { App } from '../..';
 import { Icon } from '../../util/icon';
+import { Section } from '../space'
+import { loadEditTaskDialog } from '../edit-task-dialog';
 
 export class Task {
   name;
@@ -77,6 +79,19 @@ export class Task {
     return 'after-this-week';
   }
 
+  getIndex() {
+    let result = -1;
+    const sectionName = this.getSectionName();
+    const sectionIndex = Section.getIndexFromSectionName(sectionName);
+    App.currentSpace.sections[sectionIndex].tasks.forEach((sectionTask, taskIndex) => {
+      if(this.id === sectionTask.id) {
+        result = taskIndex;
+        return;
+      }
+    });
+    return result;
+  }
+
   getTaskComponent() {
     const taskComponent = document.createElement('div');
     taskComponent.classList.add('task', `task-${this.id}`);
@@ -99,6 +114,10 @@ export class Task {
     priorityBubble.appendChild(tickIcon);
     taskBody.appendChild(this.getDateTagComponent());
     let editIcon = (new Icon('edit')).getComponent();
+    editIcon.addEventListener('click', e => {
+      e.preventDefault();
+      loadEditTaskDialog(this);
+    });
     let transferIcon = (new Icon('transfer')).getComponent();
     let deleteIcon = (new Icon('delete')).getComponent();
     deleteIcon.addEventListener('click', e => {
@@ -111,6 +130,10 @@ export class Task {
     return taskComponent;
   }
 
+  getTaskComponentReference() {
+    return document.querySelector(`.task-${this.id}`);
+  }
+
   getDateTagComponent() {
     const tagComponent = document.createElement('div');
     tagComponent.textContent = this.getTagContent();
@@ -120,7 +143,22 @@ export class Task {
 
   delete() {
     App.currentSpace.deleteTask(this);
-    const taskComponent = document.querySelector(`.task-${this.id}`);
-    taskComponent.remove();
+  }
+
+  editComponent() {
+    const component = this.getTaskComponentReference();
+    const priorityBubble = component.querySelector('.priority-bubble');
+    const taskName = component.querySelector('p.large');
+    const description = component.querySelector('small.desc');
+    const oldTag = component.querySelector(`.tag`);
+    const newTag = this.getDateTagComponent();
+    const editIcon = component.querySelector('.edit-icon');
+    const taskBody = component.querySelector('.task-body');
+    oldTag.remove();
+    priorityBubble.classList.remove('priority-high', 'priority-medium', 'priority-low', 'priority-high');
+    priorityBubble.classList.add('priority-bubble', `priority-${this.priority}`);
+    taskName.textContent = this.name;
+    description.textContent = this.description;
+    taskBody.insertBefore(newTag, editIcon);
   }
 }

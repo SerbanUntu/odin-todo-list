@@ -12,7 +12,7 @@ const radioWrappers = dialog.querySelectorAll('.input-wrapper');
 const nameInput = dialog.querySelector('.new-task-name');
 const descriptionInput = dialog.querySelector('.new-task-description');
 const dateInput = dialog.querySelector('.new-task-date');
-const priorityInput = dialog.querySelectorAll('input[name="priority"]');
+const priorityInputs = dialog.querySelectorAll('input[name="priority"]');
 
 addTaskButton.addEventListener('click', e => {
   e.preventDefault();
@@ -29,7 +29,7 @@ cancelButton.addEventListener('click', e => {
 form.addEventListener('submit', e => {
   e.preventDefault();
   let priorityInputValue;
-  priorityInput.forEach(input => {
+  priorityInputs.forEach(input => {
     if(input.checked)
       priorityInputValue = input.value;
   });

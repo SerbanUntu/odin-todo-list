@@ -1,4 +1,4 @@
-dialog#new-task-dialog {
+dialog#new-task-dialog, dialog#edit-task-dialog {
   section:has(> .form-subsection) {
     display: flex;
     flex-direction: row;

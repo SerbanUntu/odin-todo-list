@@ -1,7 +1,7 @@
 import { App } from '../..';
 import { Task } from '../task';
 import './index.css';
-import { loadEditDialog } from "../edit-space-dialog";
+import { loadEditSpaceDialog } from "../edit-space-dialog";
 import { Icon } from '../../util/icon';
 
 export class Space {
@@ -24,7 +24,6 @@ export class Space {
       });
       this.sections.push(currentSection);
     })
-    this.refreshSections();
   }
 
   static defaultSections = () => {
@@ -36,7 +35,6 @@ export class Space {
   }
 
   getSpaceComponent() {
-    this.refreshSections();
     let domCurrentSpace = document.createElement('div');
     let totalTasks = this.getTotalTasks();
     domCurrentSpace.classList.add('space-content');
@@ -89,7 +87,7 @@ export class Space {
     const domSettingsIcon = currentButton.querySelector('.settings-icon');
     if(domSettingsIcon) domSettingsIcon.addEventListener('click', e => {
       e.preventDefault();
-      loadEditDialog(this);
+      loadEditSpaceDialog(this);
     });
     return currentButton;
   }
@@ -114,32 +112,43 @@ export class Space {
   deleteTask(task) {
     const sectionName = task.getSectionName();
     const sectionIndex = Section.getIndexFromSectionName(sectionName);
-    this.sections[sectionIndex].tasks.forEach((sectionTask, taskIndex) => {
-      if(task.id === sectionTask.id) {
-        this.sections[sectionIndex].tasks.splice(taskIndex, 1);
-        if(this.sections[sectionIndex].tasks.length === 0) {
-          let currentSection = this.sections[sectionIndex].getSectionComponentReference();
-          currentSection.dataset.tasks = 0;
-        }
-      }
-    });
+    const section = this.sections[sectionIndex];
+    let getTaskComponent = document.querySelector(`.task-${task.id}`);
+    getTaskComponent.remove();
+    section.tasks.splice(task.getIndex(), 1);
+    let sectionComponent = section.getSectionComponentReference();
+    sectionComponent.dataset.tasks = section.tasks.length;
     this.updateTaskNumberDependencies();
   }
 
-  moveTask(taskIndex, fromSectionIndex, toSectionIndex) {
-    let task = this.sections[fromSectionIndex].tasks[taskIndex];
-    this.sections[fromSectionIndex].tasks.splice(taskIndex, 1);
-    this.sections[toSectionIndex].tasks.push(task);
+  editTask(task, name, description, priority, dueDate) {
+    task.name = name;
+    task.description = description;
+    task.priority = priority;
+    task.dueDate = dueDate;
+    task.editComponent();
+    this.refreshSections();
   }
 
   refreshSections() {
+    let flag = true;
     this.sections.forEach((section, sectionIndex) => {
       section.tasks.forEach((task, taskIndex) => {
         if(task.getSectionName() !== section.name) {
-          this.moveTask(taskIndex, sectionIndex, Section.getIndexFromSectionName(task.getSectionName()));
+          let oldSectionIndex = sectionIndex;
+          let newSectionIndex = Section.getIndexFromSectionName(task.getSectionName());
+          let oldTaskComponent = document.querySelector(`.task-${task.id}`);
+          let sectionComponent = section.getSectionComponentReference();
+          oldTaskComponent.remove();
+          this.sections[oldSectionIndex].tasks.splice(taskIndex, 1);
+          this.sections[newSectionIndex].addTask(task);
+          sectionComponent.dataset.tasks = section.tasks.length;
+          flag = false;
+          return;
         }
       });
     });
+    if(!flag) this.refreshSections();
   }
 
   updateTaskNumberDependencies() {
@@ -151,10 +160,9 @@ export class Space {
     spaceButtonText.textContent = `${totalTasks > 0 ? totalTasks : 'None'}`;
     totalTasksText.textContent = `${totalTasks === 0 ? 'No' : totalTasks} task${totalTasks !== 1 ? 's' : ''}`;
   }
-
 }
 
-class Section {
+export class Section {
   static sectionNames = ["Overdue", "Today", "This Week", "Next Week", "Upcoming"];
   name;
   tasks;
@@ -196,7 +204,6 @@ class Section {
   addTask(task) {
     this.tasks.push(task);
     let component = this.getSectionComponentReference();
-    console
     component.dataset.tasks = this.tasks.length;
     component.appendChild(task.getTaskComponent());
   }

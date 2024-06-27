@@ -68,6 +68,7 @@ export class App {
     document.body.style.background = `hsl(${space.hue}deg 15% 10% / 100%)`;
     Sidebar.addSelectedStyles(space.name);
     main.appendChild(App.currentSpace.getSpaceComponent());
+    App.currentSpace.refreshSections();
   }
 }
 

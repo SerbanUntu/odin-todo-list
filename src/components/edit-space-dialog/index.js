@@ -12,7 +12,7 @@ const colorDisplay = dialog.querySelector('.color-display');
 
 let oldName = '';
 
-export function loadEditDialog(space) {
+export function loadEditSpaceDialog(space) {
   dialog.showModal();
   oldName = space.name;
   formName.textContent = `Edit @${space.name}`;

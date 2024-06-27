@@ -77,16 +77,16 @@
           <label>Priority</label>
           <div class="options">
             <div class="input-wrapper">
-              <input type="radio" name="priority" id="radio-priority-high" value="high" class="radio-priority-high">
+              <input type="radio" name="priority" id="new-task-radio-priority-high" value="high" class="radio-priority-high">
             </div>
             <div class="input-wrapper">
-              <input type="radio" name="priority" id="radio-priority-medium" value="medium" class="radio-priority-medium">
+              <input type="radio" name="priority" id="new-task-radio-priority-medium" value="medium" class="radio-priority-medium">
             </div>
             <div class="input-wrapper">
-              <input type="radio" name="priority" id="radio-priority-low" value="low" class="radio-priority-low">
+              <input type="radio" name="priority" id="new-task-radio-priority-low" value="low" class="radio-priority-low">
             </div>
             <div class="input-wrapper">
-              <input type="radio" name="priority" id="radio-priority-none" value="none" class="radio-priority-none" checked>
+              <input type="radio" name="priority" id="new-task-radio-priority-none" value="none" class="radio-priority-none" checked>
             </div>
           </div>
         </div>
@@ -98,6 +98,35 @@
       <div class="buttons">
         <button type="button" class="cancel-button">Cancel</button>
         <button type="submit" class="create-button">Create</button>
+      </div>
+    </form>
+  </dialog>
+  <dialog id="edit-task-dialog">
+    <form>
+      <h1></h1>
+      <hr>
+      <section class="form-section">
+        <label for="edit-task-name">Name</label>
+        <input id="edit-task-name" class="edit-task-name" name="name" type="text" required maxlength="80">
+      </section>
+      <section class="form-section">
+        <label for="edit-task-description">Description <span class="additional">(optional)</span></label>
+        <textarea id="edit-task-description" class="edit-task-description" name="description" maxlength="1000"></textarea>
+      </section>
+      <section class="form-section">
+        <div class="form-subsection">
+          <label>Priority</label>
+          <div class="options">
+          </div>
+        </div>
+        <div class="form-subsection">
+          <label for="edit-task-date">Due date</label>
+          <input type="date" name="date" id="edit-task-date" class="edit-task-date" required>
+        </div>
+      </section>
+      <div class="buttons">
+        <button type="button" class="cancel-button">Cancel</button>
+        <button type="submit" class="create-button">Save</button>
       </div>
     </form>
   </dialog>

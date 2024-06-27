@@ -17,14 +17,16 @@
             "description": "Click the `Add task` button in the sidebar.",
             "priority": "high",
             "dueDate": "",
-            "completed": false
+            "completed": false,
+            "id": 1
           },
           {
             "name": "Star this project on Github!",
             "description": "https://github.com/SerbanUntu/odin-todo-list",
             "priority": "high",
             "dueDate": "",
-            "completed": false
+            "completed": false,
+            "id": 2
           }
         ]
       },

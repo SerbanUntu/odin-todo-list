@@ -94,16 +94,17 @@ export class Task {
   }
 
   getTaskComponent() {
-    const taskComponent = document.createElement('div');
+    const taskComponent = document.createElement('article');
     taskComponent.classList.add('task', `task-${this.id}`);
-    //! Prevent injection
     taskComponent.innerHTML = `
       <div class="task-body">
         <button class="priority-bubble priority-${this.priority} round"></button>
-        <p class="large" title="${this.name}">${this.name}</p>
+        <p class="large" title="${this.name}"></p>
       </div>
-      <p class="desc">${this.description}</p>
+      <p class="desc"></p>
     `;
+    taskComponent.querySelector('p.large').textContent = this.name;
+    taskComponent.querySelector('p.desc').textContent = this.description;
     taskComponent.dataset.completed = this.completed;
     const taskBody = taskComponent.querySelector('.task-body');
     const priorityBubble = taskComponent.querySelector('.priority-bubble');

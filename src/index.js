@@ -9,7 +9,7 @@ import { Space } from './components/space';
 import { Saver } from './util/saver';
 
 export class App {
-  static IGNORE_SAVE_FLAG = true;
+  static IGNORE_SAVE_FLAG = false;
 
   static currentSpace;
   static spaces = Saver.getData('@spaces', defaultSpaces).map(

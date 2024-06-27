@@ -223,12 +223,17 @@ label .additional {
 
 .icon {
   flex-shrink: 0;
+  background: none;
+  padding: 0;
   svg {
     fill: var(--neutral-50);
   }
 
-  &:hover svg {
-    fill: var(--neutral-90);
+  &:hover {
+    background: none;
+    svg {
+      fill: var(--neutral-90);
+    }
   }
 }
 

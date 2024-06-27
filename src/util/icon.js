@@ -8,7 +8,7 @@ export class Icon {
   }
 
   getComponent() {
-    const component = document.createElement('div');
+    const component = document.createElement(`${this.variant === 'tick' ? 'figure' : 'button'}`);
     component.classList.add('icon', `${this.variant}-icon`);
     if(this.blocked) component.classList.add('blocked-icon');
     component.innerHTML = this.getSvg();

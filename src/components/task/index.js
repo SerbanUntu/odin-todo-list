@@ -1,6 +1,8 @@
 import './index.css';
 import editIconPath from '../../images/edit.svg';
 import transferIconPath from '../../images/transfer.svg';
+import deleteIconPath from '../../images/delete.svg';
+import { App } from '../..';
 
 export class Task {
   name;
@@ -8,13 +10,15 @@ export class Task {
   priority;
   dueDate;
   completed;
+  id;
 
-  constructor(name, description, priority, dueDate, completed) {
+  constructor(name, description, priority, dueDate, completed, id = Date.now()) {
     this.name = name;
     this.description = description;
     this.priority = priority;
     this.dueDate = dueDate || Task.formatDate(new Date());
     this.completed = completed;
+    this.id = id;
   }
 
   static formatDate(date) {
@@ -77,7 +81,7 @@ export class Task {
 
   getTaskComponent() {
     const taskComponent = document.createElement('div');
-    taskComponent.classList.add('task');
+    taskComponent.classList.add('task', `task-${this.id}`);
     taskComponent.innerHTML = `
       <div class="task-body">
         <div class="priority-bubble priority-${this.priority}">
@@ -100,12 +104,20 @@ export class Task {
     taskBody.appendChild(this.getDateTagComponent());
     let editIcon = new Image();
     editIcon.src = editIconPath;
-    editIcon.classList.add('edit-icon');
+    editIcon.classList.add('icon', 'edit-icon');
     let transferIcon = new Image();
     transferIcon.src = transferIconPath;
-    transferIcon.classList.add('transfer-icon');
+    transferIcon.classList.add('icon', 'transfer-icon');
+    let deleteIcon = new Image();
+    deleteIcon.src = deleteIconPath;
+    deleteIcon.classList.add('icon', 'delete-icon');
+    deleteIcon.addEventListener('click', e => {
+      e.preventDefault();
+      this.delete();
+    });
     taskBody.appendChild(editIcon);
     taskBody.appendChild(transferIcon);
+    taskBody.appendChild(deleteIcon);
     return taskComponent;
   }
 
@@ -114,5 +126,11 @@ export class Task {
     tagComponent.textContent = this.getTagContent();
     tagComponent.classList.add('tag', `${this.getTagStyle()}-tag`);
     return tagComponent;
+  }
+
+  delete() {
+    App.currentSpace.deleteTask(this);
+    const taskComponent = document.querySelector(`.task-${this.id}`);
+    taskComponent.remove();
   }
 }

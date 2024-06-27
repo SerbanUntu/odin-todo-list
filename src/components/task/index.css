@@ -5,7 +5,7 @@
   padding: .25rem .5rem;
 
   &:hover {
-    .edit-icon, .transfer-icon {
+    .icon {
       visibility: visible;
     }
   }
@@ -110,11 +110,16 @@
     background: var(--light-blue-low);
   }
 
-  .edit-icon, .transfer-icon {
+  .icon {
     visibility: hidden;
+    cursor: pointer;
   }
 
   .edit-icon {
     margin-left: auto;
+  }
+
+  small.desc {
+    overflow-wrap: break-word;
   }
 }

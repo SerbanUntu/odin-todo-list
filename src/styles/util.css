@@ -5,3 +5,10 @@
 .text-50 {
   color: var(--neutral-50);
 }
+
+.y-scroll {
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--neutral-20) transparent;
+}

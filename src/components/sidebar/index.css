@@ -5,6 +5,7 @@
   gap: 1rem;
   padding: 2rem;
   grid-row: span 2;
+  padding-bottom: 1rem;
 }
 
 .space-button {

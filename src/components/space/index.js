@@ -21,10 +21,11 @@ export class Space {
     sections.forEach(section => {
       let currentSection = new Section(section.name, []);
       section.tasks.forEach(task => {
-        currentSection.tasks.push(new Task(task.name, task.description, task.priority, task.dueDate, task.completed));
+        currentSection.tasks.push(new Task(task.name, task.description, task.priority, task.dueDate, task.completed, task.id));
       });
       this.sections.push(currentSection);
     })
+    this.refreshSections();
   }
 
   static defaultSections = () => {
@@ -36,6 +37,7 @@ export class Space {
   }
 
   getSpaceComponent() {
+    this.refreshSections();
     let domCurrentSpace = document.createElement('div');
     let totalTasks = this.getTotalTasks();
     domCurrentSpace.classList.add('space-content');
@@ -45,8 +47,6 @@ export class Space {
     `;
     this.sections.forEach(section => {
       let sectionComponent = section.getSectionComponent();
-      if(section.tasks.length === 0)
-        sectionComponent.style.display = 'none';
       domCurrentSpace.appendChild(sectionComponent);
     });
     return domCurrentSpace;
@@ -54,7 +54,6 @@ export class Space {
 
   getSidebarButtonComponent() {
     const currentButton = document.createElement('div');
-    currentButton.dataset.name = this.name;
     currentButton.dataset.tasks = this.getTotalTasks();
     currentButton.classList.add('space-button', `space-button-${this.name}`);
     currentButton.innerHTML = `
@@ -106,6 +105,48 @@ export class Space {
       if(section.name === sectionName)
         this.sections[index].addTask(task);
     });
+    this.updateTaskNumberDependencies();
+  }
+
+  deleteTask(task) {
+    const sectionName = task.getSectionName();
+    const sectionIndex = Section.getIndexFromSectionName(sectionName);
+    this.sections[sectionIndex].tasks.forEach((sectionTask, taskIndex) => {
+      if(task.id === sectionTask.id) {
+        this.sections[sectionIndex].tasks.splice(taskIndex, 1);
+        if(this.sections[sectionIndex].tasks.length === 0) {
+          let currentSection = this.sections[sectionIndex].getSectionComponentReference();
+          currentSection.dataset.tasks = 0;
+        }
+      }
+    });
+    this.updateTaskNumberDependencies();
+  }
+
+  moveTask(taskIndex, fromSectionIndex, toSectionIndex) {
+    let task = this.sections[fromSectionIndex].tasks[taskIndex];
+    this.sections[fromSectionIndex].tasks.splice(taskIndex, 1);
+    this.sections[toSectionIndex].tasks.push(task);
+  }
+
+  refreshSections() {
+    this.sections.forEach((section, sectionIndex) => {
+      section.tasks.forEach((task, taskIndex) => {
+        if(task.getSectionName() !== section.name) {
+          this.moveTask(taskIndex, sectionIndex, Section.getIndexFromSectionName(task.getSectionName()));
+        }
+      });
+    });
+  }
+
+  updateTaskNumberDependencies() {
+    let spaceButton = document.querySelector(`.space-button-${this.name}`);
+    let spaceButtonText = spaceButton.querySelector(`.tasks-count`);
+    let totalTasksText = document.querySelector('.space-total-tasks');
+    const totalTasks = this.getTotalTasks();
+    spaceButton.dataset.tasks = totalTasks;
+    spaceButtonText.textContent = `${totalTasks > 0 ? totalTasks : 'None'}`;
+    totalTasksText.textContent = `${totalTasks === 0 ? 'No' : totalTasks} task${totalTasks !== 1 ? 's' : ''}`;
   }
 
 }
@@ -120,9 +161,21 @@ class Section {
     this.tasks = tasks;
   }
 
+  static getIndexFromSectionName(name) {
+    let result = -1;
+    Section.sectionNames.forEach((sectionName, index) => {
+      if(sectionName === name) {
+        result = index;
+        return;
+      }
+    });
+    return result;
+  }
+
   getSectionComponent() {
     const currentSection = document.createElement('section');
     currentSection.classList.add('task-section', `task-section-${this.name.toLowerCase().replace(/\s/g, '')}`);
+    currentSection.dataset.tasks = this.tasks.length;
     currentSection.innerHTML = `
       <h3>${this.name}</h3>
       <hr style="background: hsl(${App.currentSpace.hue}deg 90% 60% / 100%);">
@@ -133,10 +186,15 @@ class Section {
     return currentSection;
   }
 
+  getSectionComponentReference() {
+    return document.querySelector(`.task-section-${this.name.toLowerCase().replace(/\s/g, '')}`);
+  }
+
   addTask(task) {
     this.tasks.push(task);
-    let component = document.querySelector(`.task-section-${this.name.toLowerCase().replace(/\s/g, '')}`);
-    component.style.display = 'flex';
+    let component = this.getSectionComponentReference();
+    console
+    component.dataset.tasks = this.tasks.length;
     component.appendChild(task.getTaskComponent());
   }
 }

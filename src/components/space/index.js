@@ -121,13 +121,17 @@ export class Space {
     this.updateTaskNumberDependencies();
   }
 
-  editTask(task, name, description, priority, dueDate) {
-    task.name = name;
-    task.description = description;
-    task.priority = priority;
-    task.dueDate = dueDate;
-    task.editComponent();
-    this.refreshSections();
+  transferTask(task, spaceName) {
+    let toSpace;
+    App.spaces.forEach(space => {
+      if(space.name === spaceName) {
+        toSpace = space;
+        return;
+      }
+    });
+    toSpace.addTask(task);
+    toSpace.updateTaskNumberDependencies();
+    this.deleteTask(task);
   }
 
   refreshSections() {

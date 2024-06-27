@@ -1,6 +1,5 @@
 import { App } from '../..';
 import { Icon } from '../../util/icon';
-import './index.css';
 
 const dialog = document.querySelector('dialog#edit-task-dialog');
 const cancelButton = dialog.querySelector('.cancel-button');
@@ -57,6 +56,6 @@ form.addEventListener('submit', e => {
     if(input.checked)
       priorityInputValue = input.value;
   });
-  App.currentSpace.editTask(currentTask, nameInput.value, descriptionInput.value, priorityInputValue, dateInput.value);
+  currentTask.edit(nameInput.value, descriptionInput.value, priorityInputValue, dateInput.value);
   dialog.close();
 });

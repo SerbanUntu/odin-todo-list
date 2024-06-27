@@ -66,11 +66,11 @@
       <hr>
       <section class="form-section">
         <label for="new-task-name">Name</label>
-        <input id="new-task-name" class="new-task-name" name="name" type="text" required maxlength="80">
+        <input id="new-task-name" class="new-task-name" name="name" type="text" required maxlength="70">
       </section>
       <section class="form-section">
         <label for="new-task-description">Description <span class="additional">(optional)</span></label>
-        <textarea id="new-task-description" class="new-task-description" name="description" maxlength="1000"></textarea>
+        <textarea id="new-task-description" class="new-task-description y-scroll" name="description" maxlength="1000"></textarea>
       </section>
       <section class="form-section">
         <div class="form-subsection">
@@ -107,11 +107,11 @@
       <hr>
       <section class="form-section">
         <label for="edit-task-name">Name</label>
-        <input id="edit-task-name" class="edit-task-name" name="name" type="text" required maxlength="80">
+        <input id="edit-task-name" class="edit-task-name" name="name" type="text" required maxlength="70">
       </section>
       <section class="form-section">
         <label for="edit-task-description">Description <span class="additional">(optional)</span></label>
-        <textarea id="edit-task-description" class="edit-task-description" name="description" maxlength="1000"></textarea>
+        <textarea id="edit-task-description" class="edit-task-description y-scroll" name="description" maxlength="1000"></textarea>
       </section>
       <section class="form-section">
         <div class="form-subsection">
@@ -129,6 +129,23 @@
         <button type="submit" class="create-button">Save</button>
       </div>
     </form>
+  </dialog>
+  <dialog id="transfer-task-dialog">
+    <form>
+      <h1>Transfer task</h1>
+      <hr>
+      <section class="form-section from-space-section">
+      </section>
+      <section class="form-section">
+        <label for="to-space-name">to</label>
+        <select id="to-space-name" class="to-space-name" name="to" required></select>
+      </section>
+      <div class="buttons">
+        <button type="button" class="cancel-button">Cancel</button>
+        <button type="submit" class="create-button">Transfer</button>
+      </div>
+    </form>
+
   </dialog>
 </body>
 </html>

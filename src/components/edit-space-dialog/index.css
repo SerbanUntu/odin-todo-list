@@ -1,12 +1,7 @@
-.color-display {
-  box-sizing: content-box;
-  height: 1lh;
-  padding: .25rem 0;
-  border-radius: .5rem;
-}
-
-dialog#edit-space-dialog h1 {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+dialog#edit-space-dialog {
+  h1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }

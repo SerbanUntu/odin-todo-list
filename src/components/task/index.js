@@ -3,6 +3,7 @@ import { App } from '../..';
 import { Icon } from '../../util/icon';
 import { Section } from '../space'
 import { loadEditTaskDialog } from '../edit-task-dialog';
+import { loadTransferTaskDialog } from '../transfer-task-dialog';
 
 export class Task {
   name;
@@ -98,7 +99,7 @@ export class Task {
     taskComponent.innerHTML = `
       <div class="task-body">
         <div class="priority-bubble priority-${this.priority}"></div>
-        <p class="large">${this.name}</p>
+        <p class="large" title="${this.name}">${this.name}</p>
       </div>
       <small class="desc">${this.description}</small>
     `;
@@ -114,12 +115,19 @@ export class Task {
     priorityBubble.appendChild(tickIcon);
     taskBody.appendChild(this.getDateTagComponent());
     let editIcon = (new Icon('edit')).getComponent();
+    editIcon.title = 'Edit';
     editIcon.addEventListener('click', e => {
       e.preventDefault();
       loadEditTaskDialog(this);
     });
     let transferIcon = (new Icon('transfer')).getComponent();
+    transferIcon.title = 'Transfer to another space';
+    transferIcon.addEventListener('click', e => {
+      e.preventDefault();
+      if(App.spaces.length > 1) loadTransferTaskDialog(this);
+    });
     let deleteIcon = (new Icon('delete')).getComponent();
+    deleteIcon.title = 'Delete';
     deleteIcon.addEventListener('click', e => {
       e.preventDefault();
       this.delete();
@@ -145,11 +153,15 @@ export class Task {
     App.currentSpace.deleteTask(this);
   }
 
-  editComponent() {
+  edit(name, description, priority, dueDate) {
+    this.name = name;
+    this.description = description;
+    this.priority = priority;
+    this.dueDate = dueDate;
     const component = this.getTaskComponentReference();
     const priorityBubble = component.querySelector('.priority-bubble');
     const taskName = component.querySelector('p.large');
-    const description = component.querySelector('small.desc');
+    const descriptionComponent = component.querySelector('small.desc');
     const oldTag = component.querySelector(`.tag`);
     const newTag = this.getDateTagComponent();
     const editIcon = component.querySelector('.edit-icon');
@@ -158,7 +170,8 @@ export class Task {
     priorityBubble.classList.remove('priority-high', 'priority-medium', 'priority-low', 'priority-high');
     priorityBubble.classList.add('priority-bubble', `priority-${this.priority}`);
     taskName.textContent = this.name;
-    description.textContent = this.description;
+    descriptionComponent.textContent = this.description;
     taskBody.insertBefore(newTag, editIcon);
+    App.currentSpace.refreshSections();
   }
 }

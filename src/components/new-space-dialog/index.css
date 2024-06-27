@@ -1,6 +1,8 @@
-.color-display {
-  box-sizing: content-box;
-  height: 1lh;
-  padding: .25rem 0;
-  border-radius: .5rem;
+dialog#new-space-dialog, dialog#edit-space-dialog {
+  .color-display {
+    box-sizing: content-box;
+    height: 1lh;
+    padding: .25rem 0;
+    border-radius: .5rem;
+  }
 }

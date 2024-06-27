@@ -19,6 +19,7 @@ addTaskButton.addEventListener('click', e => {
   dialog.showModal();
   formName.textContent = `New task in @${App.currentSpace.name}`;
   form.reset();
+  dateInput.value = Task.formatDate(new Date());
 });
 
 cancelButton.addEventListener('click', e => {

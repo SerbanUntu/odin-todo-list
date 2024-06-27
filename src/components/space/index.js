@@ -1,9 +1,8 @@
 import { App } from '../..';
 import { Task } from '../task';
 import './index.css';
-import settingsIconPath from '../../images/settings.svg';
-import noIconPath from '../../images/no.svg';
 import { loadEditDialog } from "../edit-space-dialog";
+import { Icon } from '../../util/icon';
 
 export class Space {
   name;
@@ -62,10 +61,14 @@ export class Space {
       </div>
       <p class="tasks-count">${this.getTotalTasks() > 0 ? this.getTotalTasks() : 'None'}</p>
     `; //! Prevent HTML injection
-    if(!this.auto)
-      currentButton.innerHTML += `<img class="settings-icon" src="${settingsIconPath}" alt="Settings">`;
-    else
-      currentButton.innerHTML += `<img class="no-icon" src="${noIconPath}" alt="Cannot edit">`;
+    if(!this.auto) {
+      let settingsIcon = new Icon('settings');
+      currentButton.appendChild(settingsIcon.getComponent());
+    } else {
+      let noIcon = new Icon('no', true);
+      currentButton.appendChild(noIcon.getComponent());
+
+    }
     const domNameAndLabels = currentButton.querySelector('.name-and-labels');
     if(this.auto) {
       const autoTag = document.createElement('div');

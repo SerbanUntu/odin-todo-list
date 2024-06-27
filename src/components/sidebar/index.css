@@ -23,7 +23,7 @@
       display: none;
     }
 
-    img {
+    .icon {
       display: block;
     }
 
@@ -59,7 +59,7 @@
   background: var(--purple-low);
 }
 
-.sidebar img {
+.sidebar .icon {
   display: none;
   position: relative;
   left: .25rem;

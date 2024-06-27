@@ -209,3 +209,19 @@ label .additional {
   align-items: center;
   justify-content: center;
 }
+
+.icon {
+  svg {
+    fill: var(--neutral-50);
+  }
+
+  &:hover svg {
+    fill: var(--neutral-90);
+  }
+}
+
+.icon.blocked-icon {
+  svg {
+    fill: var(--neutral-30);
+  }
+}

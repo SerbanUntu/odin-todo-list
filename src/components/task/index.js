@@ -1,8 +1,6 @@
 import './index.css';
-import editIconPath from '../../images/edit.svg';
-import transferIconPath from '../../images/transfer.svg';
-import deleteIconPath from '../../images/delete.svg';
 import { App } from '../..';
+import { Icon } from '../../util/icon';
 
 export class Task {
   name;
@@ -84,11 +82,7 @@ export class Task {
     taskComponent.classList.add('task', `task-${this.id}`);
     taskComponent.innerHTML = `
       <div class="task-body">
-        <div class="priority-bubble priority-${this.priority}">
-          <svg width="15" height="12" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.708 0L4.8 7.908L1.692 4.812L0 6.504L4.8 11.304L14.4 1.704L12.708 0Z"/>
-          </svg>
-        </div>
+        <div class="priority-bubble priority-${this.priority}"></div>
         <p class="large">${this.name}</p>
       </div>
       <small class="desc">${this.description}</small>
@@ -101,16 +95,12 @@ export class Task {
       this.completed = !this.completed;
       taskComponent.dataset.completed = taskComponent.dataset.completed === 'true' ? 'false' : 'true';
     });
+    let tickIcon = (new Icon('tick')).getComponent();
+    priorityBubble.appendChild(tickIcon);
     taskBody.appendChild(this.getDateTagComponent());
-    let editIcon = new Image();
-    editIcon.src = editIconPath;
-    editIcon.classList.add('icon', 'edit-icon');
-    let transferIcon = new Image();
-    transferIcon.src = transferIconPath;
-    transferIcon.classList.add('icon', 'transfer-icon');
-    let deleteIcon = new Image();
-    deleteIcon.src = deleteIconPath;
-    deleteIcon.classList.add('icon', 'delete-icon');
+    let editIcon = (new Icon('edit')).getComponent();
+    let transferIcon = (new Icon('transfer')).getComponent();
+    let deleteIcon = (new Icon('delete')).getComponent();
     deleteIcon.addEventListener('click', e => {
       e.preventDefault();
       this.delete();
